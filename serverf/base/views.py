@@ -64,7 +64,9 @@ def getMark2(username, password):
 @csrf_exempt
 def post_student_data(request):
     global checking_item, final_df
-    students_data = []
+    if not request.session.get("students_data"):
+        request.session["students_data"] = []
+
     if request.method == "POST":
         checking_item = None
 
@@ -120,11 +122,14 @@ def post_student_data(request):
             "suitable_group": suitable_group,
             "highest_similarity_score": highest_similarity_score
         }
+        students_data = request.session["students_data"]
         students_data.append(data_response)
+        request.session["students_data"] = students_data
 
         return JsonResponse({"message": "Data processed successfully.", "data": data_response}, status=201)
         
     elif request.method == "GET":
+        students_data = request.session.get("students_data", [])
         if students_data:
             # Trả về phần tử đầu tiên của danh sách (bao gồm cluster và similarity_index)
             return JsonResponse(students_data[0], status=200)
