@@ -128,7 +128,6 @@ class AccountProcessor:
             # Lưu kết quả vào biến nếu có dữ liệu
             if average_marks:
                 self.result_json = self.json_handler.get_as_json(average_marks)
-                self.save_to_csv(average_marks)
             else:
                 print("Không có dữ liệu điểm phù hợp.")
         else:
