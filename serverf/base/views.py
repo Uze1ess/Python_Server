@@ -134,23 +134,3 @@ def post_student_data(request):
 
     return JsonResponse({"error": "Method not allowed"}, status=405)
 
-
-@csrf_exempt
-def getSimilarity(request):
-    if request.method == "POST":
-        checking_item = None
-        students_data.clear()
-        try:
-            checking_item = None
-            client = MongoClient("mongodb+srv://auth-app:6bn5axVqOkLH9gvr@cluster0.ulm5j.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
-            db = client['Test'] 
-            collection = db['train_set_test']
-
-            fields = {"Tên": 1, "Điểm tổng kết môn QT HTTT": 1, "Khai phá dữ liệu": 1, "Học máy": 1, "Sở thích": 1, "Kĩ năng làm việc": 1,"Hoạt động chính": 1, "Nguồn thông tin": 1 , "_id": 0}
-            documents = collection.find({}, fields)
-
-        except json.JSONDecodeError:
-            return JsonResponse({"error": "Invalid JSON"}, status=400)
-        
-        except Exception as e:
-            return JsonResponse({"error": f"An error occurred: {str(e)}"}, status=500)
