@@ -13,9 +13,9 @@ class BaseConfig(AppConfig):
     def ready(self):
         global team_clustering, final_df
 
-        client = MongoClient("mongodb://localhost:27017/")
-        db = client['Test'] 
-        collection = db['train_set_test']
+        client = MongoClient("mongodb+srv://lam2003:12345678taokhongnho@cluster0.ayz6i.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+        db = client['Kmean']
+        collection = db['kmean_train']
 
         fields = {"Tên": 1, "Điểm tổng kết môn QT HTTT": 1, "Khai phá dữ liệu": 1, "Học máy": 1, "Sở thích": 1, "Kĩ năng làm việc": 1,"Hoạt động chính": 1, "Nguồn thông tin": 1 , "_id": 0}
         documents = collection.find({}, fields)
