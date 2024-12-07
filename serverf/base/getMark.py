@@ -1,6 +1,7 @@
 import requests
 import json
 import urllib3
+import csv
 
 # Tắt cảnh báo SSL
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -127,6 +128,7 @@ class AccountProcessor:
             # Lưu kết quả vào biến nếu có dữ liệu
             if average_marks:
                 self.result_json = self.json_handler.get_as_json(average_marks)
+                self.save_to_csv(average_marks)
             else:
                 print("Không có dữ liệu điểm phù hợp.")
         else:
@@ -134,3 +136,21 @@ class AccountProcessor:
 
     def get_result_json(self):
         return self.result_json  # Trả về kết quả JSON đã lưu
+    @staticmethod
+    def save_to_csv(data, filename='D:\công việc\H\He thong kinh doanj thong minh\ServerTest\serverf\static\group_3_cleaned.csv'):
+        # Mở tệp CSV để ghi dữ liệu
+        with open(filename, mode='a', newline='', encoding='utf-8-sig') as file:
+            writer = csv.writer(file)
+            
+            # Nếu file rỗng, ghi tiêu đề cột
+            if file.tell() == 0:
+                writer.writerow(['Full Name', 'Subject Code', 'Average Mark'])
+            
+            # Ghi dữ liệu vào file CSV
+            for record in data:
+                writer.writerow([
+                    record['Full Name'],
+                    record['Subject Code'],
+                    record['Average Mark']
+                ])
+        print(f"Dữ liệu đã được lưu vào {filename}")
