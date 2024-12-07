@@ -138,4 +138,3 @@ def post_student_data(request):
             return JsonResponse({"error": "No data available"}, status=404)
 
     return JsonResponse({"error": "Method not allowed"}, status=405)
-
